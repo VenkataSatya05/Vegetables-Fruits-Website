@@ -69,6 +69,29 @@
 
 9. Responsive Design: Built with Tailwind CSS for a mobile-friendly experience.
 
+## 📦 Architecture
+
+VitaFresh follows an MVC (Model-View-Controller) architecture for a clean separation of concerns. Below is the overall architecture flow:
+
+1. **User → Home Page**:
+   - Login/Sign-up Page → MongoDB (stores user data)
+   - Returns to: Home Page
+   - Product Catalog → Product Search & Filtering → MongoDB (stores product data)
+   - Shopping Cart → Wishlist → Order Processing & Checkout → MongoDB (stores order data)
+     
+2. **CFrontend → Home Page**:
+   - EJS Templating (renders views)
+   - Tailwind CSS (responsive design)
+   - Renders: Product Catalog, Shopping Cart, Wishlist, Order Processing & Checkout
+     
+3. **Backend → Express.js (routing and logic)**:
+   - RESTful API Endpoints (manages products/orders).
+   - MongoDB/Mongoose (data storage for users, products, orders).
+   - JWT & bcrypt (user authentication).
+   
+5. **Data Flow**:
+   -Frontend (EJS, Tailwind CSS) → Backend (Express.js, RESTful APIs) → MongoDB (stores all data).
+
 
 
   

@@ -118,12 +118,18 @@ VitaFresh follows an MVC (Model-View-Controller) architecture for a clean separa
    PORT=3000
    
 5. **Run the Application**:
-   - On terminal, execute the client script to connect to the server:
+   - On terminal, first load the data(data.js) to MongoDb:
+   ```bash
+   node init/index.js
+   
+  - On terminal, execute the client script to connect to the server:
+   
    ```bash
    node app.js
    
 
 ###  🧠 Remember
+
 - Ensure the You installed Nodejs.
 - Use the correct IP address and ports (8000) while connecting chatbot backend.
 - A microphone are required for audio functionality.

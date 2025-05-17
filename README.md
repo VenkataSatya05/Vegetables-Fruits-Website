@@ -90,7 +90,45 @@ VitaFresh follows an MVC (Model-View-Controller) architecture for a clean separa
    - JWT & bcrypt (user authentication).
    
 5. **Data Flow**:
-   -Frontend (EJS, Tailwind CSS) → Backend (Express.js, RESTful APIs) → MongoDB (stores all data).
+   - Frontend (EJS, Tailwind CSS) → Backend (Express.js, RESTful APIs) → MongoDB (stores all data).
+
+## 🧱 Setting Up Your Development Environment
+
+1. **Install Git**:
+   - Download and install Git from [git-scm.com](https://git-scm.com/).
+  
+2. **Install Node.js**:
+   - Download and install Node.js from [www.node.js.com](https://nodejs.org/en/download).
+
+2. **Clone the Repository**:
+   ```bash
+   [git clone https://github.com/VenkataSatya05/Vegetables-Fruits-Website.git]
+   
+3. **Install Dependencies**:
+   - Navigate to the project directory and install required libraries:
+   ```bash
+   npm install bcrypt, bcryptjs, cookie-parser, cors, dotenv, ejs, express, express-ejs-layouts, express-session, jsonwebtoken, method-override, mongoose, nodemon
+
+4. **Set Up Environment Variables Create a .env file in the root directory and add the following**:
+   - Execute the server script to start listening for client connections:
+   ```bash
+   MONGO_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret
+   GEMINI_API_KEY=your_gemini_api_key
+   PORT=3000
+   
+5. **Run the Application**:
+   - On terminal, execute the client script to connect to the server:
+   ```bash
+   node app.js
+   
+
+###  🧠 Remember
+- Ensure the You installed Nodejs.
+- Use the correct IP address and ports (8000) while connecting chatbot backend.
+- A microphone are required for audio functionality.
+- The server and client must be on the same network for local testing.
+  
 
 
 

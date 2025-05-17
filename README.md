@@ -122,14 +122,10 @@ VitaFresh follows an MVC (Model-View-Controller) architecture for a clean separa
    ```bash
    node init/index.js
    node app.js
-   
- - On antother terminal,To run Chatbot(FastApi) to connect  :
    ```
+   - On antother terminal,To run Chatbot(FastApi) to connect  :
+   ```bash
     uvicorn app:app --host 0.0.0.0 --port 8000
-
-
-
-
 
 ## 🧠 Remember
 

@@ -1,0 +1,148 @@
+<div class="container mx-auto px-6 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-700">User Details</h1>
+    <a href="/admin/users" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded">
+      Back to Users
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- User Profile Card -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="p-6">
+        <div class="flex items-center mb-6">
+          <div class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-2xl">
+            <%= user.name.charAt(0).toUpperCase() %>
+          </div>
+          <div class="ml-4">
+            <h2 class="text-xl font-bold text-gray-800"><%= user.name %></h2>
+            <p class="text-gray-500"><%= user.email %></p>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-200 pt-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-sm text-gray-500">Role</p>
+              <p class="font-medium">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                  <%= user.isAdmin ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' %>">
+                  <%= user.isAdmin ? 'Admin' : 'Customer' %>
+                </span>
+              </p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Joined</p>
+              <p class="font-medium"><%= new Date(user.createdAt).toLocaleDateString() %></p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Status</p>
+              <p class="font-medium">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                  Active
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex space-x-3">
+          <% if (!user.isAdmin) { %>
+            <button onclick="toggleAdmin('<%= user._id %>', true)" 
+                    class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+              Make Admin
+            </button>
+          <% } else if (currentUser && currentUser._id && user._id && user._id.toString() !== currentUser._id.toString()) { %>
+            <button onclick="toggleAdmin('<%= user._id %>', false)" 
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Remove Admin
+            </button>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Orders -->
+    <div class="md:col-span-2 bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-medium text-gray-700">Order History</h3>
+      </div>
+      <div class="p-6">
+        <% if (orders && orders.length > 0) { %>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <% orders.forEach(order => { %>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">#<%= order._id.toString().slice(-6).toUpperCase() %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500"><%= new Date(order.createdAt).toLocaleDateString() %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">₹<%= order.total.toFixed(2) %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        <%= order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
+                           order.status === 'Processing' ? 'bg-blue-100 text-blue-800' : 
+                           order.status === 'Shipped' ? 'bg-purple-100 text-purple-800' : 
+                           'bg-yellow-100 text-yellow-800' %>">
+                        <%= order.status %>
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <a href="/admin/orders/<%= order._id %>" class="text-indigo-600 hover:text-indigo-900">View</a>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <div class="text-center py-8">
+            <p class="text-gray-500">This user has not placed any orders yet.</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function toggleAdmin(userId, makeAdmin) {
+    try {
+      const response = await fetch(`/admin/users/${userId}/toggle-admin`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isAdmin: makeAdmin }),
+      });
+      
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Failed to update user role');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while updating user role');
+    }
+  }
+</script>
+
+<%- include('../partials/admin-footer') %>
+
+

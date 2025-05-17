@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - VeggieFruit Market</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100">
+  <%- include('../partials/header') %>
+  <main class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-6">Admin Panel</h1>
+    <a href="/products/new" class="mb-6 inline-block bg-green-600 text-white px-4 py-2 rounded-md">Add New Product</a>
+    <table class="w-full border-collapse">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="p-4 text-left">Name</th>
+          <th class="p-4 text-left">Category</th>
+          <th class="p-4 text-left">Price</th>
+          <th class="p-4 text-left">Stock</th>
+          <th class="p-4 text-left">Quantity</th>  <!-- Added this column -->
+          <th class="p-4 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% products.forEach(product => { %>
+          <tr class="border-b">
+            <td class="p-4"><%= product.name %></td>
+            <td class="p-4"><%= product.category %></td>
+            <td class="p-4">$<%= product.price.toFixed(2) %></td>
+            <td class="p-4"><%= product.stock %></td>
+            <td class="p-4"><%= product.quantity.value %> <%= product.quantity.unit %></td>  <!-- Added this cell -->
+            <td class="p-4">
+              <a href="/products/<%= product._id %>/edit" class="text-green-600 hover:underline" aria-label="Edit product">Edit</a>
+              <form action="/products/<%= product._id %>" method="POST" class="inline">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="text-red-600 hover:underline ml-4" aria-label="Delete product">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </main>
+  <%- include('../partials/footer') %>
+  <script src="/js/scripts.js"></script>
+</body>
+</html>

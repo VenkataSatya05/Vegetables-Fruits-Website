@@ -1,0 +1,15 @@
+<!-- Price section in product detail page -->
+<div class="mt-4 relative">
+    <% if (product.originalPrice && product.discountPercentage > 0) { %>
+        <div class="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm font-bold rounded-md">
+            <%= Math.round(product.discountPercentage) %>% Off
+        </div>
+        <div class="flex items-center">
+            <span class="text-3xl font-bold text-green-600">₹<%= product.price %></span>
+            <span class="ml-3 text-xl text-gray-400 line-through">₹<%= product.originalPrice %></span>
+        </div>
+    <% } else { %>
+        <span class="text-3xl font-bold text-gray-900">₹<%= product.price %></span>
+    <% } %>
+</div>
+

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Product - VeggieFruit Market</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100">
+  <%- include('../partials/header') %>
+  <main class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-6"><%= typeof product !== 'undefined' ? 'Edit' : 'Add New' %> Product</h1>
+    <form action="<%= typeof product !== 'undefined' ? `/admin/products/${product._id}` : '/admin/products' %>" method="POST" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
+      <!-- Form fields would be here -->
+
+      <!-- Update submit button text based on context -->
+      <button type="submit" class="w-full bg-green-600 text-white px-4 py-2 rounded-md">
+        <%= typeof product !== 'undefined' ? 'Update' : 'Add' %> Product
+      </button>
+    </form>
+
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700">Name</label>
+        <input type="text" 
+               id="name" 
+               name="name" 
+               value="<%= typeof product !== 'undefined' ? product.name : '' %>"
+               required 
+               class="w-full p-2 border rounded-md">
+      </div>
+
+      <!-- For each field, add the value attribute -->
+      <div class="mb-4">
+        <label for="category" class="block text-gray-700">Category</label>
+        <select id="category" name="category" class="w-full p-2 border rounded-md">
+          <% const categories = ["Fresh Vegetables", "Fresh Fruits", "Leafy Greens", "Dry Fruits", "Spices", "Grains", "Oils & Sauces", "Breads & Cheeses", "Dairy Products"] %>
+          <% categories.forEach(cat => { %>
+            <option value="<%= cat %>" <%= (typeof product !== 'undefined' && product.category === cat) ? 'selected' : '' %>><%= cat %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700">Description</label>
+        <textarea id="description" 
+                  name="description" 
+                  class="w-full p-2 border rounded-md"><%= typeof product !== 'undefined' ? product.description : '' %></textarea>
+      </div>
+
+      <!-- Continue updating other fields similarly -->
+      <div class="mb-4">
+        <label for="quantity" class="block text-gray-700">Quantity</label>
+        <div class="flex gap-2">
+          <input type="text" 
+                 id="quantity_value" 
+                 name="quantityValue" 
+                 value="<%= product && product.quantity && product.quantity.value ? product.quantity.value : '1' %>"
+                 required
+                 class="w-1/2 p-2 border rounded-md" 
+                 placeholder="Value">
+          <select id="quantity_unit" 
+                  name="quantityUnit" 
+                  required
+                  class="w-1/2 p-2 border rounded-md">
+            <% const units = ["kg", "g", "L", "ml", "unit"] %>
+            <% units.forEach(unit => { %>
+              <option value="<%= unit %>" 
+                      <%= (product && product.quantity && product.quantity.unit === unit) ? 'selected' : unit === 'kg' ? 'selected' : '' %>>
+                <%= unit %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+
+      <!-- Update submit button text based on context -->
+      <button type="submit" class="w-full bg-green-600 text-white px-4 py-2 rounded-md">
+        <%= typeof product !== 'undefined' ? 'Update' : 'Add' %> Product
+      </button>
+    </form>
+  </main>
+  <%- include('../partials/footer') %>
+  <script src="/js/scripts.js"></script>
+</body>
+</html>

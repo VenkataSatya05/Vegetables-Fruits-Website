@@ -1,0 +1,32 @@
+<div class="product-card">
+    <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
+    
+    <!-- Add special tags display -->
+    <% if(product.specialTag && product.specialTag.length > 0) { %>
+        <div class="special-tags">
+            <% product.specialTag.forEach(tag => { %>
+                <span class="special-tag <%= tag %>">
+                    <%= tag === 'flash_deal' ? 'Flash Deal' : 
+                       tag === 'deal_of_the_day' ? 'Deal of the Day' : 
+                       tag === 'summer_specials' ? 'Summer Special' : 
+                       'Everyday Essential' %>
+                </span>
+            <% }) %>
+        </div>
+    <% } %>
+    
+    <h3 class="text-center"><%= product.name %></h3>
+    
+    <div class="price-container flex justify-center items-baseline">
+        <span class="current-price">₹<%= product.currentPrice.toFixed(2) %></span>
+        <% if (product.originalPrice) { %>
+            <span class="original-price ml-2">₹<%= product.originalPrice.toFixed(2) %></span>
+        <% } %>
+    </div>
+
+    <!-- Status - centered -->
+    <p class="status-text text-center mt-1 <%= 
+        product.status === 'Available' ? 'text-green-600' : 
+        product.status === 'Sold Out' ? 'text-red-600' : 'text-yellow-600' 
+    %> text-sm font-medium"><%= product.status %></p>
+</div>

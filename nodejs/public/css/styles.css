@@ -1,0 +1,503 @@
+/* Neumorphic styling */
+button, input, select, textarea {
+  transition: all 0.3s ease;
+}
+
+button:hover, a:hover {
+  transform: scale(1.05);
+}
+
+/* Skeleton loader shimmer effect */
+.animate-pulse {
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+
+/* Light/Dark mode */
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+body.dark-mode .bg-white {
+  background-color: #374151;
+}
+
+body.dark-mode .text-gray-600 {
+  color: #d1d5db;
+}
+
+body.dark-mode .bg-gray-100 {
+  background-color: #111827;
+}
+
+body.dark-mode .bg-green-600 {
+  background-color: #15803d;
+}
+
+body.dark-mode .bg-gray-200 {
+  background-color: #4b5563;
+}
+
+.product-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.price-container {
+    margin: 1rem 0;
+}
+
+.current-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e41749;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #666;
+    margin-left: 0.5rem;
+}
+
+.quantity-badge {
+    background-color: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #666;
+    display: inline-block;
+    margin: 5px 0;
+}
+
+.add-to-cart-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.sold-out-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    opacity: 0.7;
+}
+
+.notify-btn {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+
+.product-card.sold-out {
+    background-color: #e5e7eb !important; /* Changed to darker gray */
+    opacity: 1; /* Changed from 0.9 to 1 for more visibility */
+    border-color: #d1d5db; /* Added darker border */
+}
+
+.product-card.sold-out img {
+    opacity: 0.6; /* Reduced from 0.7 for more contrast */
+    filter: grayscale(40%); /* Added grayscale effect */
+}
+
+.sold-out-badge {
+    color: #dc2626;
+    font-weight: 600;
+    background-color: #fee2e2; /* Added light red background */
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Add these styles at the end of your file to ensure they have highest priority */
+.bg-gray-200 {
+  background-color: #E5E7EB !important;
+}
+
+[class*='bg-gray-200'] {
+  background-color: #E5E7EB !important;
+}
+
+.special-tags {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.special-tag {
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.special-tag.flash_deal {
+    background-color: #FF4136;
+    color: white;
+}
+
+.special-tag.deal_of_the_day {
+    background-color: #B10DC9;
+    color: white;
+}
+
+.special-tag.summer_specials {
+    background-color: #FF851B;
+    color: white;
+}
+
+.special-tag.everyday_essentials {
+    background-color: #0074D9;
+    color: white;
+}
+
+/* Add this new style for Deal of the Day product cards */
+.product-card .deal-of-the-day-badge {
+    background-color: #B10DC9;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+/* Add a subtle border to Deal of the Day cards */
+.product-card.deal-of-the-day {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+/* Search bar styles */
+input[type="text"], 
+input[type="email"], 
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  transition: border-color 0.15s ease-in-out;
+}
+
+/* Special styling for search inputs */
+input[name="q"] {
+  padding-left: 2.5rem; /* Increased left padding for search icon */
+  padding-right: 2.5rem; /* Increased right padding for voice button */
+}
+
+input[type="text"]:focus, 
+input[type="email"]:focus, 
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Fix for search icon positioning */
+.relative .absolute {
+  pointer-events: none;
+}
+
+/* Fix for voice search button */
+#voice-search, #voice-search-admin {
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Fix for mobile search form */
+#mobile-search-form {
+  z-index: 20;
+  background-color: #fff;
+}
+
+/* Fix for dark mode */
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="password"],
+body.dark-mode input[type="number"],
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: #374151;
+  color: #f3f4f6;
+  border-color: #4b5563;
+}
+
+body.dark-mode input[type="text"]:focus,
+body.dark-mode input[type="email"]:focus,
+body.dark-mode input[type="password"]:focus,
+body.dark-mode input[type="number"]:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+/* Additional dark mode styles */
+body.dark-mode .product-card {
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+body.dark-mode .product-card h3 {
+  color: #f3f4f6;
+}
+
+body.dark-mode .product-card.sold-out {
+  background-color: #1f2937 !important;
+  border-color: #374151;
+}
+
+body.dark-mode .bg-yellow-50 {
+  background-color: #422006;
+  color: #f3f4f6;
+}
+
+body.dark-mode .bg-green-50 {
+  background-color: #064e3b;
+  color: #f3f4f6;
+}
+
+body.dark-mode .text-gray-700,
+body.dark-mode .text-gray-800,
+body.dark-mode .text-gray-900 {
+  color: #f3f4f6;
+}
+
+body.dark-mode .shadow-md,
+body.dark-mode .shadow-sm,
+body.dark-mode .shadow-lg {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode table th {
+  background-color: #374151;
+  color: #f3f4f6;
+}
+
+body.dark-mode table td {
+  border-color: #4b5563;
+}
+
+body.dark-mode .pagination a {
+  background-color: #374151;
+  color: #f3f4f6;
+}
+
+body.dark-mode .pagination a.active {
+  background-color: #10b981;
+}
+
+/* Admin panel dark mode styles */
+body.dark-mode .bg-white {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+body.dark-mode .text-gray-700,
+body.dark-mode .text-gray-800,
+body.dark-mode .text-gray-900 {
+  color: #f3f4f6;
+}
+
+body.dark-mode .border-gray-300 {
+  border-color: #4b5563;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #374151;
+  color: #f3f4f6;
+  border-color: #4b5563;
+}
+
+body.dark-mode input::placeholder {
+  color: #9ca3af;
+}
+
+body.dark-mode table {
+  color: #f3f4f6;
+}
+
+body.dark-mode table thead {
+  background-color: #374151;
+}
+
+body.dark-mode table tbody tr {
+  border-color: #4b5563;
+}
+
+body.dark-mode table tbody tr:hover {
+  background-color: #374151;
+}
+
+/* Password toggle button */
+.password-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.password-toggle:focus {
+  outline: none;
+}
+
+.password-toggle svg {
+  pointer-events: none; /* Ensure clicks go to the button, not the SVG */
+}
+
+.password-toggle:hover svg {
+  color: #10b981 !important;
+}
+
+/* Fix for dark mode */
+body.dark-mode .password-toggle svg {
+  color: #9ca3af !important;
+}
+
+body.dark-mode .password-toggle:hover svg {
+  color: #10b981 !important;
+}
+
+/* Chatbot styles */
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+
+.typing-indicator .dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #888;
+  margin: 0 2px;
+  animation: typing 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator .dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-indicator .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 80%, 100% { 
+    transform: scale(0.6);
+    opacity: 0.6;
+  }
+  40% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+#chatbot-container {
+  z-index: 40;
+}
+
+#theme-toggle {
+  z-index: 50;
+}
+
+/* Shop Now button - green background with white text */
+.shop-now-btn {
+    background-color: #10b981 !important; /* Green background */
+    color: white !important;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.shop-now-btn:hover {
+    background-color: #059669 !important; /* Darker green on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Price filter buttons - improve visibility */
+.price-filter-btn {
+    background-color: #10b981 !important; /* Green background */
+    color: white !important;
+    transition: all 0.2s ease;
+}
+
+.price-filter-btn:hover {
+    background-color: #059669 !important; /* Darker green on hover */
+}
+
+.price-filter-btn.active {
+    background-color: #047857 !important; /* Even darker green for active state */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Fix for dark mode */
+body.dark-mode .shop-now-btn,
+body.dark-mode .price-filter-btn {
+    background-color: #15803d !important; /* Darker green for dark mode */
+}
+
+body.dark-mode .shop-now-btn:hover,
+body.dark-mode .price-filter-btn:hover {
+    background-color: #166534 !important; /* Even darker green for hover in dark mode */
+}
+
+body.dark-mode .price-filter-btn.active {
+    background-color: #14532d !important; /* Darkest green for active state in dark mode */
+}

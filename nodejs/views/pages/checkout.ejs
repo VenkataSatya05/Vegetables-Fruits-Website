@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - VeggieFruit Market</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100">
+  <%- include('../partials/header') %>
+  <main class="container mx-auto py-8">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold">Checkout</h1>
+      <a href="/" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
+        <i class="fas fa-home mr-2"></i>Home
+      </a>
+    </div>
+    <div class="flex flex-col md:flex-row gap-8">
+      <div class="md:w-2/3 space-y-8">
+        <!-- Shipping Address Form -->
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <h2 class="text-2xl font-semibold mb-4">Shipping Address</h2>
+          <form id="checkout-form" action="/orders/checkout" method="POST">
+            <div class="mb-4">
+              <label for="name" class="block text-gray-700">Full Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                class="w-full p-2 border rounded-md"
+                aria-label="Full Name"
+              >
+            </div>
+            <div class="mb-4">
+              <label for="address" class="block text-gray-700">Address</label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                required
+                class="w-full p-2 border rounded-md"
+                aria-label="Address"
+              >
+            </div>
+            <div class="mb-4">
+              <label for="city" class="block text-gray-700">City</label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                required
+                class="w-full p-2 border rounded-md"
+                aria-label="City"
+              >
+            </div>
+            <div class="mb-4">
+              <label for="postalCode" class="block text-gray-700">Postal Code</label>
+              <input
+                type="text"
+                id="postalCode"
+                name="postalCode"
+                required
+                class="w-full p-2 border rounded-md"
+                aria-label="Postal Code"
+              >
+            </div>
+            <div class="mb-4">
+              <label for="country" class="block text-gray-700">Country</label>
+              <input
+                type="text"
+                id="country"
+                name="country"
+                required
+                class="w-full p-2 border rounded-md"
+                aria-label="Country"
+              >
+            </div>
+          </form>
+        </div>
+
+        <!-- Payment Details Form -->
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <h2 class="text-2xl font-semibold mb-4">Payment Method</h2>
+          
+          <!-- Payment Method Selection -->
+          <div class="mb-6">
+            <div class="flex flex-col space-y-3">
+              <label class="inline-flex items-center">
+                <input type="radio" name="paymentMethod" value="card" class="payment-method-radio" checked>
+                <span class="ml-2">Credit/Debit Card</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="paymentMethod" value="upi" class="payment-method-radio">
+                <span class="ml-2">UPI</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="paymentMethod" value="cod" class="payment-method-radio">
+                <span class="ml-2">Cash on Delivery</span>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Card Payment Form (default) -->
+          <div id="card-payment-form" class="payment-form">
+            <div class="mb-4">
+              <label for="cardNumber" class="block text-gray-700">Card Number</label>
+              <input
+                type="text"
+                id="cardNumber"
+                placeholder="1234 5678 9012 3456"
+                class="w-full p-2 border rounded-md"
+                aria-label="Card Number"
+                maxlength="19"
+              >
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="expiryDate" class="block text-gray-700">Expiry Date</label>
+                <input
+                  type="text"
+                  id="expiryDate"
+                  placeholder="MM/YY"
+                  class="w-full p-2 border rounded-md"
+                  aria-label="Expiry Date"
+                  maxlength="5"
+                >
+              </div>
+              <div>
+                <label for="cvv" class="block text-gray-700">CVV</label>
+                <input
+                  type="text"
+                  id="cvv"
+                  placeholder="123"
+                  class="w-full p-2 border rounded-md"
+                  aria-label="CVV"
+                  maxlength="3"
+                >
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="cardName" class="block text-gray-700">Name on Card</label>
+              <input
+                type="text"
+                id="cardName"
+                class="w-full p-2 border rounded-md"
+                aria-label="Name on Card"
+              >
+            </div>
+          </div>
+          
+          <!-- UPI Payment Form -->
+          <div id="upi-payment-form" class="payment-form hidden">
+            <div class="mb-4">
+              <label for="upiId" class="block text-gray-700">UPI ID</label>
+              <input
+                type="text"
+                id="upiId"
+                placeholder="yourname@upi"
+                class="w-full p-2 border rounded-md"
+                aria-label="UPI ID"
+              >
+            </div>
+            <div class="mb-4">
+              <p class="text-gray-600 text-sm">We support all UPI apps:</p>
+              <div class="flex space-x-4 mt-2">
+                <div class="text-center">
+                  <img src="/images/phonepe.png" alt="PhonePe" class="h-8 w-8 mx-auto">
+                  <span class="text-xs">PhonePe</span>
+                </div>
+                <div class="text-center">
+                  <img src="/images/gpay.png" alt="Google Pay" class="h-8 w-8 mx-auto">
+                  <span class="text-xs">Google Pay</span>
+                </div>
+                <div class="text-center">
+                  <img src="/images/paytm.png" alt="Paytm" class="h-8 w-8 mx-auto">
+                  <span class="text-xs">Paytm</span>
+                </div>
+                <div class="text-center">
+                  <img src="/images/bhim.png" alt="BHIM" class="h-8 w-8 mx-auto">
+                  <span class="text-xs">BHIM</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- COD Payment Form -->
+          <div id="cod-payment-form" class="payment-form hidden">
+            <div class="p-4 bg-yellow-50 rounded-md">
+              <p class="text-sm text-yellow-800">
+                <strong>Note:</strong> Cash on Delivery is available for orders under ₹2000. Please keep exact change ready at the time of delivery.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="md:w-1/3">
+        <div class="bg-white p-8 rounded-lg shadow-md sticky top-8">
+          <h2 class="text-2xl font-semibold mb-4">Order Summary</h2>
+          <% if (cart.items.length === 0) { %>
+            <p>Your cart is empty.</p>
+          <% } else { %>
+            <ul class="mb-4 space-y-2">
+              <% cart.items.forEach(item => { %>
+                <li class="flex justify-between items-center">
+                  <div class="flex items-center">
+                    <img src="<%= item.product.image %>" alt="<%= item.product.name %>" class="w-12 h-12 object-cover rounded-md mr-2">
+                    <div>
+                      <p class="font-medium"><%= item.product.name %></p>
+                      <p class="text-sm text-gray-500">Qty: <%= item.quantity %></p>
+                    </div>
+                  </div>
+                  <span class="font-medium">₹<%= (item.product.price * item.quantity).toFixed(2) %></span>
+                </li>
+              <% }) %>
+            </ul>
+            <div class="border-t border-gray-200 pt-4 mt-4">
+              <div class="flex justify-between mb-2">
+                <span>Subtotal</span>
+                <span>₹<%= cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2) %></span>
+              </div>
+              <div class="flex justify-between mb-2">
+                <span>Shipping</span>
+                <span>Free</span>
+              </div>
+              <div class="flex justify-between font-semibold text-lg mt-4 pt-4 border-t border-gray-200">
+                <span>Total</span>
+                <span>₹<%= cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2) %></span>
+              </div>
+            </div>
+            <button 
+              type="submit" 
+              form="checkout-form"
+              class="w-full bg-green-600 text-white px-4 py-3 rounded-md mt-6 hover:bg-green-700 transition-colors"
+              onclick="return processPayment(event)"
+            >
+              Pay ₹<%= cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2) %>
+            </button>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Payment Processing Modal -->
+  <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
+      <div class="text-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+        <h3 class="text-xl font-semibold mb-2">Processing Payment</h3>
+        <p class="text-gray-600">Please wait while we process your payment...</p>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/scripts.js"></script>
+  <script>
+    // Payment method switching
+    document.querySelectorAll('.payment-method-radio').forEach(radio => {
+      radio.addEventListener('change', function() {
+        // Hide all payment forms
+        document.querySelectorAll('.payment-form').forEach(form => {
+          form.classList.add('hidden');
+        });
+        
+        // Show the selected payment form
+        const selectedMethod = this.value;
+        document.getElementById(`${selectedMethod}-payment-form`).classList.remove('hidden');
+      });
+    });
+
+    // Format card number with spaces
+    document.getElementById('cardNumber').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+      let formattedValue = '';
+      for(let i = 0; i < value.length; i++) {
+        if(i > 0 && i % 4 === 0) {
+          formattedValue += ' ';
+        }
+        formattedValue += value[i];
+      }
+      e.target.value = formattedValue;
+    });
+
+    // Format expiry date
+    document.getElementById('expiryDate').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+      if (value.length >= 2) {
+        value = value.slice(0,2) + '/' + value.slice(2);
+      }
+      e.target.value = value;
+    });
+
+    // Only allow numbers in CVV
+    document.getElementById('cvv').addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/[^0-9]/gi, '');
+    });
+
+    function processPayment(event) {
+      event.preventDefault();
+      
+      // Validate shipping address form
+      const shippingForm = document.getElementById('checkout-form');
+      const name = document.getElementById('name').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const postalCode = document.getElementById('postalCode').value.trim();
+      const country = document.getElementById('country').value.trim();
+      
+      // Check if all required shipping fields are filled
+      if (!name || !address || !city || !postalCode || !country) {
+        alert('Please fill in all shipping address fields');
+        return false;
+      }
+      
+      // Get selected payment method
+      const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+      
+      // Add payment method to form
+      const paymentMethodInput = document.createElement('input');
+      paymentMethodInput.type = 'hidden';
+      paymentMethodInput.name = 'paymentMethod';
+      paymentMethodInput.value = selectedPaymentMethod;
+      shippingForm.appendChild(paymentMethodInput);
+      
+      // Validate based on payment method
+      if (selectedPaymentMethod === 'card') {
+        const cardNumber = document.getElementById('cardNumber').value.trim();
+        const expiryDate = document.getElementById('expiryDate').value.trim();
+        const cvv = document.getElementById('cvv').value.trim();
+        const cardName = document.getElementById('cardName').value.trim();
+        
+        if (!cardNumber || !expiryDate || !cvv || !cardName) {
+          alert('Please fill in all card details');
+          return false;
+        }
+        
+        // Validate card number format (16 digits with spaces)
+        const cardNumberClean = cardNumber.replace(/\s/g, '');
+        if (cardNumberClean.length !== 16 || !/^\d+$/.test(cardNumberClean)) {
+          alert('Please enter a valid 16-digit card number');
+          return false;
+        }
+        
+        // Validate expiry date format (MM/YY)
+        if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
+          alert('Please enter a valid expiry date in MM/YY format');
+          return false;
+        }
+        
+        // Validate CVV (3 digits)
+        if (!/^\d{3}$/.test(cvv)) {
+          alert('Please enter a valid 3-digit CVV');
+          return false;
+        }
+      } else if (selectedPaymentMethod === 'upi') {
+        const upiId = document.getElementById('upiId').value.trim();
+        
+        if (!upiId) {
+          alert('Please enter your UPI ID');
+          return false;
+        }
+        
+        // Validate UPI ID format
+        if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+$/.test(upiId)) {
+          alert('Please enter a valid UPI ID (e.g., yourname@upi)');
+          return false;
+        }
+      } else if (selectedPaymentMethod === 'cod') {
+        // Check if order total is under ₹2000 for COD
+        const orderTotal = parseFloat('<%= cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2) %>');
+        if (orderTotal > 2000) {
+          alert('Cash on Delivery is only available for orders under ₹2000');
+          return false;
+        }
+      }
+      
+      // Show payment processing modal
+      const modal = document.getElementById('payment-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      // Simulate payment processing
+      setTimeout(() => {
+        // Submit the form
+        document.getElementById('checkout-form').submit();
+      }, 2000);
+
+      return false;
+    }
+  </script>
+</body>
+</html>

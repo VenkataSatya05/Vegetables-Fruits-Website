@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'VeggieFruit Market' %></title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100">
+  <!-- Main content -->
+  <main>
+    <%- body %>
+  </main>
+  
+  <!-- Include chatbot partial -->
+  <%- include('../partials/chatbot') %>
+  
+  <!-- Only include footer if explicitly requested -->
+  <% if (typeof includeFooter !== 'undefined' && includeFooter === true) { %>
+    <%- include('../partials/footer') %>
+  <% } %>
+  
+  <script src="/js/main.js"></script>
+  <script src="/js/scripts.js"></script>
+  <script src="/js/chatbot.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

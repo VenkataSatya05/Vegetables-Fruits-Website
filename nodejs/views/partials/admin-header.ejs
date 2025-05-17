@@ -1,0 +1,14 @@
+<!-- Admin Header Partial -->
+<header class="bg-white shadow-sm">
+  <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-gray-900">VeggiFruit Admin</h1>
+      <div class="flex items-center space-x-4">
+        <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+          <span class="text-gray-600"><%= currentUser.name %></span>
+        <% } %>
+        <a href="/auth/logout" class="text-red-600 hover:text-red-800">Logout</a>
+      </div>
+    </div>
+  </div>
+</header>

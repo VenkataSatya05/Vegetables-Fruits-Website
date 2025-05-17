@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - VeggieFruit Market</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100">
+  <%- include('../partials/header') %>
+  <main class="container mx-auto py-8">
+    <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+      <h1 class="text-2xl font-bold mb-6 text-center">Sign Up</h1>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <p class="text-red-600 mb-4 text-center"><%= error %></p>
+      <% } %>
+      <form action="/auth/signup" method="POST">
+        <div class="mb-4">
+          <label for="name" class="block text-gray-700">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="w-full p-2 border rounded-md"
+            aria-label="Name"
+          >
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="w-full p-2 border rounded-md"
+            aria-label="Email"
+          >
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-gray-700">Password</label>
+          <div class="relative">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              minlength="8"
+              class="w-full p-2 border rounded-md pr-10"
+              aria-label="Password"
+            >
+            <button 
+              type="button" 
+              class="password-toggle" 
+              tabindex="-1"
+              aria-label="Toggle password visibility"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">Password must be at least 8 characters and include uppercase, lowercase, number, and special character.</p>
+        </div>
+        <div class="mb-4">
+          <label for="confirmPassword" class="block text-gray-700">Confirm Password</label>
+          <div class="relative">
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+              minlength="8"
+              class="w-full p-2 border rounded-md pr-10"
+              aria-label="Confirm Password"
+            >
+            <button 
+              type="button" 
+              class="password-toggle" 
+              tabindex="-1"
+              aria-label="Toggle password visibility"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div id="password-strength" class="mb-4 hidden">
+          <div class="h-2 bg-gray-200 rounded-full">
+            <div id="password-strength-bar" class="h-2 rounded-full bg-red-500" style="width: 0%"></div>
+          </div>
+          <p id="password-strength-text" class="text-xs mt-1 text-gray-500"></p>
+        </div>
+        <button type="submit" id="signup-button" class="w-full bg-green-600 text-white px-4 py-2 rounded-md" disabled>Sign Up</button>
+      </form>
+      <p class="mt-4 text-center">
+        Already have an account? <a href="/auth/login" class="text-green-600 hover:underline">Login</a>
+      </p>
+    </div>
+  </main>
+  <%- include('../partials/footer') %>
+  <script src="/js/scripts.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

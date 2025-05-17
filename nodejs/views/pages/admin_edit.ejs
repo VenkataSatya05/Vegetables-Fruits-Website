@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Product - VeggieFruit Market</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100">
+  <%- include('../partials/header') %>
+  <main class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-6">Edit Product</h1>
+    <form action="/products/<%= product._id %>?_method=PUT" method="POST" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="<%= product.name %>"
+          required
+          class="w-full p-2 border rounded-md"
+          aria-label="Product Name"
+        >
+      </div>
+      <div class="mb-4">
+        <label for="category" class="block text-gray-700">Category</label>
+        <select id="category" name="category" class="w-full p-2 border rounded-md" aria-label="Category">
+          <option value="Fresh Vegetables" <%= product.category === 'Fresh Vegetables' ? 'selected' : '' %>>Fresh Vegetables</option>
+          <option value="Fresh Fruits" <%= product.category === 'Fresh Fruits' ? 'selected' : '' %>>Fresh Fruits</option>
+          <option value="Leafy Greens" <%= product.category === 'Leafy Greens' ? 'selected' : '' %>>Leafy Greens</option>
+          <option value="Dry Fruits" <%= product.category === 'Dry Fruits' ? 'selected' : '' %>>Dry Fruits</option>
+          <option value="Spices" <%= product.category === 'Spices' ? 'selected' : '' %>>Spices</option>
+          <option value="Grains" <%= product.category === 'Grains' ? 'selected' : '' %>>Grains</option>
+          <option value="Oils & Sauces" <%= product.category === 'Oils & Sauces' ? 'selected' : '' %>>Oils & Sauces</option>
+          <option value="Breads & Cheeses" <%= product.category === 'Breads & Cheeses' ? 'selected' : '' %>>Breads & Cheeses</option>
+          <option value="Dairy Products" <%= product.category === 'Dairy Products' ? 'selected' : '' %>>Dairy Products</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700">Description</label>
+        <textarea id="description" name="description" class="w-full p-2 border rounded-md" aria-label="Description">
+          <%= product.description %>
+        </textarea>
+      </div>
+      <div class="mb-4">
+        <label for="image" class="block text-gray-700">Image URL</label>
+        <input
+          type="text"
+          id="image"
+          name="image"
+          value="<%= product.image %>"
+          class="w-full p-2 border rounded-md"
+          aria-label="Image URL"
+        >
+      </div>
+      <div class="mb-4">
+        <label for="price" class="block text-gray-700">Price</label>
+        <input
+          type="number"
+          id="price"
+          name="price"
+          step="0.01"
+          value="<%= product.price %>"
+          required
+          class="w-full p-2 border rounded-md"
+          aria-label="Price"
+        >
+      </div>
+      <div class="mb-4">
+        <label for="stock" class="block text-gray-700">Stock</label>
+        <input
+          type="number"
+          id="stock"
+          name="stock"
+          value="<%= product.stock %>"
+          required
+          class="w-full p-2 border rounded-md"
+          aria-label="Stock"
+        >
+      </div>
+      <div class="mb-4">
+        <label for="isOrganic" class="block text-gray-700">Organic</label>
+        <input
+          type="checkbox"
+          id="isOrganic"
+          name="isOrganic"
+          <%= product.isOrganic ? 'checked' : '' %>
+          class="p-2"
+          aria-label="Organic"
+        >
+      </div>
+      <div class="mb-4">
+        <label for="season" class="block text-gray-700">Season</label>
+        <select id="season" name="season" class="w-full p-2 border rounded-md" aria-label="Season">
+          <option value="Spring" <%= product.season === 'Spring' ? 'selected' : '' %>>Spring</option>
+          <option value="Summer" <%= product.season === 'Summer' ? 'selected' : '' %>>Summer</option>
+          <option value="Fall" <%= product.season === 'Fall' ? 'selected' : '' %>>Fall</option>
+          <option value="Winter" <%= product.season === 'Winter' ? 'selected' : '' %>>Winter</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="origin" class="block text-gray-700">Origin</label>
+        <input
+          type="text"
+          id="origin"
+          name="origin"
+          value="<%= product.origin %>"
+          class="w-full p-2 border rounded-md"
+          aria-label="Origin"
+        >
+      </div>
+      <div class="mb-4">
+        <label for="quantity" class="block text-gray-700">Quantity</label>
+        <div class="flex gap-2">
+          <input type="text" id="quantity_value" name="quantityValue" value="<%= product.quantity?.value || '' %>" required class="w-1/2 p-2 border rounded-md" placeholder="Value">
+          <select id="quantity_unit" name="quantityUnit" class="w-1/2 p-2 border rounded-md">
+            <option value="kg" <%= product.quantity?.unit === 'kg' ? 'selected' : '' %>>kg</option>
+            <option value="g" <%= product.quantity?.unit === 'g' ? 'selected' : '' %>>g</option>
+            <option value="L" <%= product.quantity?.unit === 'L' ? 'selected' : '' %>>L</option>
+            <option value="ml" <%= product.quantity?.unit === 'ml' ? 'selected' : '' %>>ml</option>
+            <option value="unit" <%= product.quantity?.unit === 'unit' ? 'selected' : '' %>>unit</option>
+          </select>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="status" class="block text-gray-700">Status</label>
+        <select id="status" name="status" class="w-full p-2 border rounded-md" aria-label="Status">
+          <option value="Available" <%= product.status === 'Available' ? 'selected' : '' %>>Available</option>
+          <option value="Low Stock" <%= product.status === 'Low Stock' ? 'selected' : '' %>>Low Stock</option>
+          <option value="Out of Stock" <%= product.status === 'Out of Stock' ? 'selected' : '' %>>Out of Stock</option>
+        </select>
+      </div>
+      <button type="submit" class="w-full bg-green-600 text-white px-4 py-2 rounded-md">Update Product</button>
+    </form>
+  </main>
+  <%- include('../partials/footer') %>
+  <script src="/js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Management - VeggiFruit Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <nav class="w-64 bg-green-700 text-white min-h-screen">
+            <div class="p-4 border-b border-green-800">
+                <h2 class="text-2xl font-bold">VeggiFruit Admin</h2>
+            </div>
+            <ul class="mt-4">
+                <li class="px-4 py-2 hover:bg-green-800 transition-colors"><a href="/admin" class="block">Dashboard</a></li>
+                <li class="px-4 py-2 hover:bg-green-800 transition-colors"><a href="/admin/products" class="block">Products</a></li>
+                <li class="px-4 py-2 bg-green-800"><a href="/admin/orders" class="block">Orders</a></li>
+                <li class="px-4 py-2 hover:bg-green-800 transition-colors"><a href="/admin/users" class="block">Users</a></li>
+                <li class="mt-8 px-4 py-2 hover:bg-red-600 transition-colors"><a href="/auth/logout" class="block">Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+            <div class="container mx-auto px-6 py-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-3xl font-bold text-gray-700">Orders Management</h1>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <% orders.forEach(order => { %>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">#<%= order._id.toString().slice(-6) %></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900"><%= order.user.name %></div>
+                                        <div class="text-sm text-gray-500"><%= order.user.email %></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900"><%= new Date(order.createdAt).toLocaleDateString() %></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">₹<%= order.total %></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                            <%= order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
+                                               order.status === 'Cancelled' ? 'bg-red-100 text-red-800' : 
+                                               'bg-yellow-100 text-yellow-800' %>">
+                                            <%= order.status %>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="/admin/orders/<%= order._id %>" 
+                                           class="text-indigo-600 hover:text-indigo-900">View Details</a>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

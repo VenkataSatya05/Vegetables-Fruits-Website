@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Orders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-6 py-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-semibold text-gray-800">Orders Management</h1>
+        </div>
+
+        <div class="mt-8 bg-white rounded-lg shadow overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <% orders.forEach(order => { %>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">#<%= order._id.toString().slice(-6) %></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900"><%= order.user.name %></div>
+                                    <div class="text-sm text-gray-500"><%= order.user.email %></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900"><%= new Date(order.createdAt).toLocaleDateString() %></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">₹<%= order.total.toFixed(2) %></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <select 
+                                        class="status-select text-sm rounded-full px-3 py-1 font-semibold
+                                        <%= order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
+                                           order.status === 'Cancelled' ? 'bg-red-100 text-red-800' : 
+                                           order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800' : 
+                                           order.status === 'Shipped' ? 'bg-blue-100 text-blue-800' : 
+                                           'bg-gray-100 text-gray-800' %>"
+                                        data-order-id="<%= order._id %>"
+                                    >
+                                        <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                        <option value="Processing" <%= order.status === 'Processing' ? 'selected' : '' %>>Processing</option>
+                                        <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                                        <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                                        <option value="Cancelled" <%= order.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                                    </select>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="/admin/orders/<%= order._id %>" 
+                                       class="text-indigo-600 hover:text-indigo-900">View Details</a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add event listeners to status selects
+        document.querySelectorAll('.status-select').forEach(select => {
+            select.addEventListener('change', (e) => {
+                const orderId = e.target.dataset.orderId;
+                const newStatus = e.target.value;
+                updateOrderStatus(orderId, newStatus);
+            });
+        });
+
+        // Function to update order status
+        async function updateOrderStatus(orderId, status) {
+            try {
+                const response = await fetch(`/admin/orders/${orderId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ status }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update the select element's styling based on the new status
+                    const select = document.querySelector(`[data-order-id="${orderId}"]`);
+                    select.className = `status-select text-sm rounded-full px-3 py-1 font-semibold ${
+                        status === 'Delivered' ? 'bg-green-100 text-green-800' : 
+                        status === 'Cancelled' ? 'bg-red-100 text-red-800' : 
+                        status === 'Processing' ? 'bg-yellow-100 text-yellow-800' : 
+                        status === 'Shipped' ? 'bg-blue-100 text-blue-800' : 
+                        'bg-gray-100 text-gray-800'}`;
+                    
+                    // Show a temporary success message
+                    const tr = select.closest('tr');
+                    const statusCell = select.closest('td');
+                    
+                    const statusMessage = document.createElement('div');
+                    statusMessage.className = 'text-xs text-green-600 mt-1';
+                    statusMessage.textContent = `Updated to ${status}`;
+                    statusCell.appendChild(statusMessage);
+                    
+                    // Remove the message after 3 seconds
+                    setTimeout(() => {
+                        statusMessage.remove();
+                    }, 3000);
+                } else {
+                    console.error('Failed to update order status:', data.message);
+                    alert('Failed to update order status: ' + (data.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                alert('An error occurred while updating order status');
+            }
+        }
+
+        // Filter functionality
+        document.getElementById('paymentFilter').addEventListener('change', applyFilters);
+        document.getElementById('orderFilter').addEventListener('change', applyFilters);
+        document.getElementById('startDate').addEventListener('change', applyFilters);
+        document.getElementById('endDate').addEventListener('change', applyFilters);
+
+        function applyFilters() {
+            const paymentStatus = document.getElementById('paymentFilter').value;
+            const orderStatus = document.getElementById('orderFilter').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            // Implement filter logic here
+            console.log('Applying filters:', { paymentStatus, orderStatus, startDate, endDate });
+        }
+    </script>
+</body>
+</html> 

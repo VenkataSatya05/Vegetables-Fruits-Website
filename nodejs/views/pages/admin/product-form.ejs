@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product ? 'Edit' : 'Add' %> Product - VeggiFruit Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <nav class="w-64 bg-green-700 text-white min-h-screen">
+            <div class="p-4 border-b border-green-800">
+                <h2 class="text-2xl font-bold">VeggiFruit Admin</h2>
+            </div>
+            <ul class="mt-4">
+                <li class="px-4 py-2 hover:bg-green-800 transition-colors"><a href="/admin" class="block">Dashboard</a></li>
+                <li class="px-4 py-2 bg-green-800"><a href="/admin/products" class="block">Products</a></li>
+                <li class="px-4 py-2 hover:bg-green-800 transition-colors"><a href="/admin/orders" class="block">Orders</a></li>
+                <li class="px-4 py-2 hover:bg-green-800 transition-colors"><a href="/admin/users" class="block">Users</a></li>
+                <li class="mt-8 px-4 py-2 hover:bg-red-600 transition-colors"><a href="/auth/logout" class="block">Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+            <div class="container mx-auto px-6 py-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-3xl font-bold text-gray-700">
+                        <%= product ? 'Edit Product' : 'Add New Product' %>
+                    </h1>
+                    <a href="/admin/products" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                        Back to Products
+                    </a>
+                </div>
+
+                <% if (typeof error !== 'undefined') { %>
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <strong class="font-bold">Error!</strong>
+                        <span class="block sm:inline"><%= error %></span>
+                    </div>
+                <% } %>
+
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <form action="<%= product ? `/admin/products/${product._id}?_method=PUT` : '/admin/products' %>" 
+                        method="POST" 
+                        class="space-y-6">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Product Name *</label>
+                                <input type="text" 
+                                    name="name" 
+                                    value="<%= product ? product.name : '' %>"
+                                    required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                            </div>
+                            
+                            <!-- Other form fields would be here -->
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Description *</label>
+                            <textarea name="description" 
+                                    rows="4"
+                                    required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"><%= product ? product.description : '' %></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Price (₹) *</label>
+                                <input type="number" 
+                                       name="price" 
+                                       value="<%= product ? product.price : '' %>"
+                                       step="0.01"
+                                       required
+                                       class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-2">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Original Price (₹)</label>
+                                <input type="number" 
+                                       name="originalPrice" 
+                                       value="<%= product && product.originalPrice ? product.originalPrice : '' %>"
+                                       step="0.01"
+                                       class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-2">
+                                <p class="text-xs text-gray-500 mt-1">Leave empty if no discount</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Discount Percentage (%)</label>
+                                <input type="number" 
+                                       name="discountPercentage" 
+                                       value="<%= product && product.discountPercentage ? product.discountPercentage : '' %>"
+                                       min="0"
+                                       max="100"
+                                       step="0.1"
+                                       class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-2">
+                                <p class="text-xs text-gray-500 mt-1">Will be calculated automatically if Original Price is provided</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Quantity *</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <input type="text" 
+                                           name="quantityValue" 
+                                           value="<%= product && product.quantity ? product.quantity.value : '1' %>"
+                                           required
+                                           class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-2">
+                                    <select name="quantityUnit" 
+                                            class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-2">
+                                        <option value="kg" <%= product && product.quantity && product.quantity.unit === 'kg' ? 'selected' : '' %>>kg</option>
+                                        <option value="g" <%= product && product.quantity && product.quantity.unit === 'g' ? 'selected' : '' %>>g</option>
+                                        <option value="L" <%= product && product.quantity && product.quantity.unit === 'L' ? 'selected' : '' %>>L</option>
+                                        <option value="ml" <%= product && product.quantity && product.quantity.unit === 'ml' ? 'selected' : '' %>>ml</option>
+                                        <option value="pcs" <%= product && product.quantity && product.quantity.unit === 'pcs' ? 'selected' : '' %>>pcs</option>
+                                        <option value="bunch" <%= product && product.quantity && product.quantity.unit === 'bunch' ? 'selected' : '' %>>bunch</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Status</label>
+                                <select name="status" 
+                                        class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 p-2">
+                                    <option value="Available" <%= product && product.status === 'Available' ? 'selected' : '' %>>Available</option>
+                                    <option value="Sold Out" <%= product && product.status === 'Sold Out' ? 'selected' : '' %>>Sold Out</option>
+                                    <option value="Coming Soon" <%= product && product.status === 'Coming Soon' ? 'selected' : '' %>>Coming Soon</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end space-x-4">
+                            <a href="/admin/products" 
+                            class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                                Cancel
+                            </a>
+                            <button type="submit" 
+                                    class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                <%= product ? 'Update Product' : 'Add Product' %>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

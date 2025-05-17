@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - VeggiFruit Market</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100">
+    <%- include('../partials/header') %>
+    <main class="container mx-auto py-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-3xl font-bold">Order Details</h1>
+                <div class="flex space-x-4">
+                    <a href="/orders/my-orders" class="text-indigo-600 hover:text-indigo-900">
+                        ← Back to Orders
+                    </a>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <!-- Order Header -->
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                        <div>
+                            <h2 class="text-xl font-semibold">Order #<%= order._id.toString().slice(-6) %></h2>
+                            <p class="text-sm text-gray-500">Placed on <%= new Date(order.createdAt).toLocaleDateString() %></p>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <span class="px-3 py-1 rounded-full text-sm font-semibold
+                                <%= order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
+                                   order.status === 'Processing' ? 'bg-blue-100 text-blue-800' : 
+                                   order.status === 'Cancelled' ? 'bg-red-100 text-red-800' : 
+                                   'bg-yellow-100 text-yellow-800' %>">
+                                <%= order.status %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Items -->
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold mb-4">Items</h3>
+                    <div class="space-y-4">
+                        <% order.items.forEach(item => { %>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <img src="<%= item.product.image %>" alt="<%= item.product.name %>" class="w-16 h-16 object-cover rounded-md mr-4">
+                                    <div>
+                                        <h4 class="font-medium"><%= item.product.name %></h4>
+                                        <p class="text-sm text-gray-500">Qty: <%= item.quantity %></p>
+                                    </div>
+                                </div>
+                                <p class="font-medium">₹<%= (item.price * item.quantity).toFixed(2) %></p>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+                
+                <!-- Shipping Address -->
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold mb-4">Shipping Address</h3>
+                    <p><%= order.shippingAddress.name %></p>
+                    <p><%= order.shippingAddress.address %></p>
+                    <p><%= order.shippingAddress.city %>, <%= order.shippingAddress.postalCode %></p>
+                    <p><%= order.shippingAddress.country %></p>
+                </div>
+                
+                <!-- Payment Information -->
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold mb-4">Payment Information</h3>
+                    <p><strong>Method:</strong> <%= order.payment.method %></p>
+                    <p><strong>Status:</strong> <%= order.payment.status %></p>
+                    <% if (order.payment.transactionId) { %>
+                        <p><strong>Transaction ID:</strong> <%= order.payment.transactionId %></p>
+                    <% } %>
+                    <% if (order.payment.paidAt) { %>
+                        <p><strong>Paid on:</strong> <%= new Date(order.payment.paidAt).toLocaleString() %></p>
+                    <% } %>
+                </div>
+                
+                <!-- Order Summary -->
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold mb-4">Order Summary</h3>
+                    <div class="flex justify-between mb-2">
+                        <p>Subtotal</p>
+                        <p>₹<%= order.total.toFixed(2) %></p>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <p>Shipping</p>
+                        <p>Free</p>
+                    </div>
+                    <div class="flex justify-between font-semibold text-lg mt-4 pt-4 border-t border-gray-200">
+                        <p>Total</p>
+                        <p>₹<%= order.total.toFixed(2) %></p>
+                    </div>
+                    
+                    <% if (order.status !== 'Delivered' && order.status !== 'Cancelled') { %>
+                        <div class="mt-6">
+                            <% 
+                            const orderTime = new Date(order.createdAt).getTime();
+                            const currentTime = new Date().getTime();
+                            const minutesPassed = Math.floor((currentTime - orderTime) / (1000 * 60));
+                            const canCancel = minutesPassed <= 10;
+                            %>
+                            
+                            <div id="cancel-timer" data-order-time="<%= orderTime %>" class="mb-3 text-sm">
+                                <% if (canCancel) { %>
+                                    You can cancel within: <span class="text-red-600 font-bold">calculating...</span>
+                                <% } else { %>
+                                    <span class="text-red-600">Cancellation period has expired</span>
+                                <% } %>
+                            </div>
+                            
+                            <% if (canCancel) { %>
+                                <form id="cancel-form" action="/orders/cancel/<%= order._id %>" method="POST" onsubmit="return confirm('Are you sure you want to cancel this order? You will receive a full refund.');">
+                                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition">
+                                        Cancel Order (Full Refund)
+                                    </button>
+                                </form>
+                            <% } else { %>
+                                <form id="cancel-form" action="/orders/cancel/<%= order._id %>" method="POST" onsubmit="return confirm('Are you sure you want to cancel this order? No refund will be provided as the 10-minute cancellation period has expired.');">
+                                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition">
+                                        Cancel Order (No Refund)
+                                    </button>
+                                </form>
+                            <% } %>
+                        </div>
+                    <% } %>
+                    
+                    <% if (order.status === 'Cancelled' && order.cancellation) { %>
+                        <div class="mt-4 p-3 bg-gray-100 rounded-md">
+                            <p class="text-sm"><strong>Cancelled on:</strong> <%= new Date(order.cancellation.cancelledAt).toLocaleString() %></p>
+                            <p class="text-sm"><strong>Reason:</strong> <%= order.cancellation.reason %></p>
+                            <p class="text-sm"><strong>Refund Status:</strong> 
+                                <% if (order.cancellation.refundEligible) { %>
+                                    <span class="text-green-600">Eligible for refund</span>
+                                <% } else { %>
+                                    <span class="text-red-600">Not eligible for refund</span>
+                                <% } %>
+                            </p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/js/scripts.js"></script>
+    <script>
+        // Only run if the cancel timer element exists
+        const cancelTimer = document.getElementById('cancel-timer');
+        if (cancelTimer) {
+            const orderTime = parseInt(cancelTimer.getAttribute('data-order-time'));
+            
+            // Update the timer every second
+            const timerInterval = setInterval(() => {
+                const currentTime = new Date().getTime();
+                const timeDiff = currentTime - orderTime;
+                const minutesPassed = Math.floor(timeDiff / (1000 * 60));
+                const secondsPassed = Math.floor(timeDiff / 1000) % 60;
+                
+                const minutesLeft = 9 - minutesPassed;
+                const secondsLeft = 59 - secondsPassed;
+                
+                // Format the time remaining
+                const timeLeftText = `${minutesLeft}:${secondsLeft < 10 ? '0' + secondsLeft : secondsLeft}`;
+                
+                // Update the timer text
+                const timerSpan = cancelTimer.querySelector('span');
+                if (timerSpan) {
+                    timerSpan.textContent = timeLeftText;
+                }
+                
+                // If time is up, remove the cancel button and update the message
+                if (minutesLeft < 0 || (minutesLeft === 0 && secondsLeft === 0)) {
+                    clearInterval(timerInterval);
+                    const cancelForm = document.getElementById('cancel-form');
+                    if (cancelForm) {
+                        // Update the form to show no refund message
+                        const submitButton = cancelForm.querySelector('button');
+                        if (submitButton) {
+                            submitButton.textContent = 'Cancel Order (No Refund)';
+                        }
+                        cancelForm.onsubmit = function() {
+                            return confirm('Are you sure you want to cancel this order? No refund will be provided as the 10-minute cancellation period has expired.');
+                        };
+                    }
+                    cancelTimer.innerHTML = `<span class="text-red-600">Cancellation period has expired</span>`;
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html> 

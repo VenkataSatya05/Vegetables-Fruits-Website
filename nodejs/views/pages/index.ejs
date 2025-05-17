@@ -1,0 +1,538 @@
+<!-- filepath: c:\Users\VENKATA SATYA\OneDrive\Desktop\Spargen\backend\views\pages\index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeggieFruit Market</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100">
+  <%- include('../partials/header') %>
+  <main class="container mx-auto py-8 px-4">
+    <!-- Welcome Section -->
+    <div class="bg-gray-50 p-5 rounded-lg shadow-sm mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h3 class="font-semibold text-lg">Welcome, <%= locals.user ? user.name : 'Customer' %></h3>
+          <% if (locals.user) { %>
+            <p class="text-gray-600 text-sm mt-1">
+              <% if (locals.user.role === 'admin') { %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                  Admin
+                </span>
+              <% } else { %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  Customer
+                </span>
+              <% } %>
+            </p>
+          <% } %>
+        </div>
+        <div class="flex space-x-6">
+          <a href="/cart" class="text-sm text-green-600 hover:text-green-800 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Cart
+          </a>
+          <a href="/orders/my-orders" class="text-sm text-green-600 hover:text-green-800 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            My Orders
+          </a>
+          <a href="/wishlist" class="text-sm text-green-600 hover:text-green-800 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            Wishlist
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <section class="bg-green-600 text-white p-10 rounded-lg text-center mb-10">
+      <h1 class="text-4xl font-bold">Fresh Vegetables & Fruits Delivered!</h1>
+      <p class="mt-5 text-lg">Shop our wide range of organic and seasonal produce.</p>
+      <a href="/products" class="mt-8 inline-block bg-white text-green-600 px-8 py-3 rounded-md font-semibold hover:bg-gray-200 transition">
+        Shop Now
+      </a>
+    </section>
+
+    <!-- Category Navigation -->
+    <div class="flex flex-wrap gap-4 justify-center mb-12 py-2">
+      <a href="/products?category=Fresh Vegetables" 
+         class="px-6 py-2.5 bg-green-600 text-white rounded-full hover:bg-green-700 transition">
+            Fresh Vegetables
+        </a>
+      <a href="/products?category=Fresh Fruits"
+         class="px-6 py-2.5 bg-green-600 text-white rounded-full hover:bg-green-700 transition">
+            Fresh Fruits
+        </a>
+      <a href="/products?category=Leafy Greens"
+         class="px-6 py-2.5 bg-green-600 text-white rounded-full hover:bg-green-700 transition">
+            Leafy Greens
+        </a>
+      <a href="/products?category=Grains"
+         class="px-6 py-2.5 bg-green-600 text-white rounded-full hover:bg-green-700 transition">
+            Grains
+        </a>
+      <a href="/products?category=Spices"
+         class="px-6 py-2.5 bg-green-600 text-white rounded-full hover:bg-green-700 transition">
+            Spices
+        </a>
+      <a href="/products?category=Dry Fruits"
+         class="px-6 py-2.5 bg-green-600 text-white rounded-full hover:bg-green-700 transition">
+            Dry Fruits
+        </a>
+      <a href="/products?category=Oils%20%26%20Sauces" 
+         class="px-6 py-2.5 bg-green-600 text-white rounded-full hover:bg-green-700 transition">
+            Oils & Sauces
+        </a>
+      <a href="/products?category=Breads%20%26%20Cheeses" 
+         class="px-6 py-2.5 bg-green-600 text-white rounded-full hover:bg-green-700 transition">
+            Breads & Cheeses
+        </a>
+      <a href="/products?category=Dairy%20Products" 
+         class="px-6 py-2.5 bg-green-600 text-white rounded-full hover:bg-green-700 transition">
+            Dairy Products
+        </a>
+    </div>
+    
+    <!-- Featured Products Section -->
+    <section class="mt-12 bg-green-50 p-6 rounded-lg">
+      <h2 class="text-2xl font-bold mb-4">Featured Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <% 
+        // Only display the first 5 products as featured
+        const featuredProducts = products.slice(0, 5);
+        
+        featuredProducts.forEach(product => { 
+        %>
+          <div class="product-card <%= product.status === 'Sold Out' ? 'sold-out' : '' %> bg-white p-4 rounded-lg shadow-sm">
+            <div class="relative">
+              <img src="<%= product.image %>" 
+                   alt="<%= product.name %>" 
+                   class="w-full h-48 object-cover rounded-md"
+                   loading="lazy">
+              <% if(product.isOrganic) { %>
+                <span class="absolute top-2 left-2 px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                  Organic
+                </span>
+              <% } %>
+              <% if(product.originalPrice && product.discountPercentage > 0) { %>
+                <span class="absolute top-2 right-2 px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-md">
+                  <%= Math.round(product.discountPercentage) %>% Off
+                </span>
+              <% } %>
+            </div>
+            <h3 class="mt-2 text-lg font-semibold text-center"><%= product.name %></h3>
+            <div class="flex items-baseline justify-center">
+              <% if(product.originalPrice && product.discountPercentage > 0) { %>
+                <p class="text-green-600 font-bold">₹<%= product.price.toFixed(2) %><% if (product.quantity) { %>&nbsp;/ <%= product.quantity.value %><%= product.quantity.unit %><% } %></p>
+                <p class="ml-2 text-sm text-gray-400 line-through">₹<%= product.originalPrice.toFixed(2) %></p>
+              <% } else { %>
+                <p class="text-green-600 font-bold">₹<%= product.price.toFixed(2) %><% if (product.quantity) { %>&nbsp;/ <%= product.quantity.value %><%= product.quantity.unit %><% } %></p>
+              <% } %>
+            </div>
+            
+            <!-- Status below price - centered -->
+            <% if(product.status === 'Sold Out') { %>
+              <p class="text-red-600 text-sm font-medium mt-1 text-center">Sold Out</p>
+            <% } else if(product.status === 'Coming Soon') { %>
+              <p class="text-yellow-600 text-sm font-medium mt-1 text-center">Coming Soon</p>
+            <% } else { %>
+              <p class="text-green-600 text-sm font-medium mt-1 text-center">Available</p>
+            <% } %>
+            
+            <!-- Action Buttons -->
+            <div class="mt-2 flex space-x-2">
+              <a href="/products/<%= product._id %>" 
+                 class="flex-1 text-center bg-green-600 text-white py-2 rounded hover:bg-green-700 transition <%= product.status === 'Sold Out' ? 'pointer-events-none bg-gray-400' : '' %>">
+                View Details
+              </a>
+              
+              <!-- Quick Add to Cart Button (only for Available products) -->
+              <% if(product.status === 'Available') { %>
+                <form action="/cart" method="POST" class="flex-none">
+                  <input type="hidden" name="productId" value="<%= product._id %>">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" 
+                          class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
+                          title="Add to Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </button>
+                </form>
+              <% } %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- Debug info - only visible to admins with debug parameter -->
+    <% if (process.env.NODE_ENV !== 'production' && req.query.debug === 'true') { %>
+    <div class="bg-gray-100 p-4 mb-8 rounded">
+      <h3 class="font-bold">Debug Info:</h3>
+      <p>Total products: <%= products.length %></p>
+      <p>Products with flash_deal tag: <%= products.filter(p => p.specialTag && p.specialTag.includes('flash_deal')).length %></p>
+      <p>Products with deal_of_the_day tag: <%= products.filter(p => p.specialTag && p.specialTag.includes('deal_of_the_day')).length %></p>
+      <p>Products with summer_specials tag: <%= products.filter(p => p.specialTag && p.specialTag.includes('summer_specials')).length %></p>
+      <p>Products with everyday_essentials tag: <%= products.filter(p => p.specialTag && p.specialTag.includes('everyday_essentials')).length %></p>
+      <p>First product specialTag: <%= products.length > 0 ? JSON.stringify(products[0].specialTag) : 'No products' %></p>
+      
+      <!-- Additional debugging -->
+      <% if (products.length > 0) { %>
+        <h4 class="font-bold mt-2">First 5 Products:</h4>
+        <% products.slice(0, 5).forEach((product, index) => { %>
+          <div class="mt-1">
+            <p>Product <%= index + 1 %>: <%= product.name %></p>
+            <p>- specialTag: <%= JSON.stringify(product.specialTag) %></p>
+            <p>- status: <%= product.status %></p>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+    <% } %>
+
+    <!-- Flash Deals Section -->
+    <section class="mt-16 bg-red-50 p-6 rounded-lg">
+      <div class="flex items-center mb-4">
+        <h2 class="text-2xl font-bold">Flash Deals</h2>
+        <span class="ml-3 px-3 py-1 bg-red-100 text-red-800 text-xs font-semibold rounded-full">Limited Time</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <% 
+        // Filter products with flash_deal tag
+        const flashDeals = products.filter(p => p.specialTag && Array.isArray(p.specialTag) && p.specialTag.includes('flash_deal')).slice(0, 4);
+        
+        if (flashDeals.length === 0) {
+        %>
+          <div class="col-span-4 text-center py-8">
+            <p class="text-gray-500">No flash deals available at the moment.</p>
+          </div>
+        <% } else {
+          flashDeals.forEach(product => { 
+        %>
+          <div class="product-card <%= product.status === 'Sold Out' ? 'sold-out' : '' %> bg-white p-4 rounded-lg shadow-sm">
+            <div class="relative">
+              <img src="<%= product.image %>" alt="<%= product.name %>" class="w-full h-48 object-cover rounded-md" loading="lazy">
+              <span class="absolute top-2 left-2 px-2 py-1 bg-red-600 text-white text-xs font-bold rounded-full">Flash Deal</span>
+              <% if(product.isOrganic) { %>
+                <span class="absolute bottom-2 left-2 px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                  Organic
+                </span>
+              <% } %>
+              <% if(product.originalPrice && product.discountPercentage > 0) { %>
+                <span class="absolute top-2 right-2 px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-md">
+                  <%= Math.round(product.discountPercentage) %>% Off
+                </span>
+              <% } %>
+            </div>
+            <h3 class="mt-2 text-lg font-semibold text-center"><%= product.name %></h3>
+            <div class="flex items-baseline justify-center">
+              <% if(product.originalPrice && product.discountPercentage > 0) { %>
+                <p class="text-green-600 font-bold">₹<%= product.price.toFixed(2) %><% if (product.quantity) { %>&nbsp;/ <%= product.quantity.value %><%= product.quantity.unit %><% } %></p>
+                <p class="ml-2 text-sm text-gray-400 line-through">₹<%= product.originalPrice.toFixed(2) %></p>
+              <% } else { %>
+                <p class="text-green-600 font-bold">₹<%= product.price.toFixed(2) %><% if (product.quantity) { %>&nbsp;/ <%= product.quantity.value %><%= product.quantity.unit %><% } %></p>
+              <% } %>
+            </div>
+            
+            <!-- Status below price - centered -->
+            <% if(product.status === 'Sold Out') { %>
+              <p class="text-red-600 text-sm font-medium mt-1 text-center">Sold Out</p>
+            <% } else if(product.status === 'Coming Soon') { %>
+              <p class="text-yellow-600 text-sm font-medium mt-1 text-center">Coming Soon</p>
+            <% } else { %>
+              <p class="text-green-600 text-sm font-medium mt-1 text-center">Available</p>
+            <% } %>
+            
+            <!-- Action Buttons -->
+            <div class="mt-2 flex space-x-2">
+              <a href="/products/<%= product._id %>" 
+                 class="flex-1 text-center bg-green-600 text-white py-2 rounded hover:bg-green-700 transition <%= product.status === 'Sold Out' ? 'pointer-events-none bg-gray-400' : '' %>">
+                View Details
+              </a>
+              
+              <!-- Quick Add to Cart Button (only for Available products) -->
+              <% if(product.status === 'Available') { %>
+                <form action="/cart" method="POST" class="flex-none">
+                  <input type="hidden" name="productId" value="<%= product._id %>">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" 
+                          class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
+                          title="Add to Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </button>
+                </form>
+              <% } %>
+            </div>
+          </div>
+        <% })} %>
+      </div>
+      <div class="mt-4 text-right">
+        <a href="/products?tag=flash_deal" class="text-green-600 hover:underline">View All Flash Deals →</a>
+      </div>
+    </section>
+
+    <!-- Deal of the Day Section -->
+    <section class="mt-16 bg-purple-50 p-6 rounded-lg">
+      <div class="flex items-center mb-4">
+        <h2 class="text-2xl font-bold">Deal of the Day</h2>
+        <span class="ml-3 px-3 py-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded-full">Today Only</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <% 
+        // Filter products with deal_of_the_day tag
+        const dealsOfDay = products.filter(p => p.specialTag && Array.isArray(p.specialTag) && p.specialTag.includes('deal_of_the_day')).slice(0, 4);
+        
+        if (dealsOfDay.length === 0) {
+        %>
+          <div class="col-span-4 text-center py-8">
+            <p class="text-gray-500">No deals of the day available at the moment.</p>
+          </div>
+        <% } else {
+          dealsOfDay.forEach(product => { 
+        %>
+          <div class="product-card <%= product.status === 'Sold Out' ? 'sold-out' : '' %> bg-white p-4 rounded-lg shadow-sm">
+            <div class="relative">
+              <img src="<%= product.image %>" alt="<%= product.name %>" class="w-full h-48 object-cover rounded-md" loading="lazy">
+              <span class="absolute top-2 left-2 px-2 py-1 bg-purple-600 text-white text-xs font-bold rounded-full">Deal of the Day</span>
+              <% if(product.isOrganic) { %>
+                <span class="absolute bottom-2 left-2 px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                  Organic
+                </span>
+              <% } %>
+              <% if(product.originalPrice && product.discountPercentage > 0) { %>
+                <span class="absolute top-2 right-2 px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-md">
+                  <%= Math.round(product.discountPercentage) %>% Off
+                </span>
+              <% } %>
+            </div>
+            <h3 class="mt-2 text-lg font-semibold text-center"><%= product.name %></h3>
+            <div class="flex items-baseline justify-center">
+              <% if(product.originalPrice && product.discountPercentage > 0) { %>
+                <p class="text-green-600 font-bold">₹<%= product.price.toFixed(2) %><% if (product.quantity) { %>&nbsp;/ <%= product.quantity.value %><%= product.quantity.unit %><% } %></p>
+                <p class="ml-2 text-sm text-gray-400 line-through">₹<%= product.originalPrice.toFixed(2) %></p>
+              <% } else { %>
+                <p class="text-green-600 font-bold">₹<%= product.price.toFixed(2) %><% if (product.quantity) { %>&nbsp;/ <%= product.quantity.value %><%= product.quantity.unit %><% } %></p>
+              <% } %>
+            </div>
+            
+            <!-- Status below price - centered -->
+            <% if(product.status === 'Sold Out') { %>
+              <p class="text-red-600 text-sm font-medium mt-1 text-center">Sold Out</p>
+            <% } else if(product.status === 'Coming Soon') { %>
+              <p class="text-yellow-600 text-sm font-medium mt-1 text-center">Coming Soon</p>
+            <% } else { %>
+              <p class="text-green-600 text-sm font-medium mt-1 text-center">Available</p>
+            <% } %>
+            
+            <!-- Action Buttons -->
+            <div class="mt-2 flex space-x-2">
+              <a href="/products/<%= product._id %>" 
+                 class="flex-1 text-center bg-green-600 text-white py-2 rounded hover:bg-green-700 transition <%= product.status === 'Sold Out' ? 'pointer-events-none bg-gray-400' : '' %>">
+                View Details
+              </a>
+              
+              <!-- Quick Add to Cart Button (only for Available products) -->
+              <% if(product.status === 'Available') { %>
+                <form action="/cart" method="POST" class="flex-none">
+                  <input type="hidden" name="productId" value="<%= product._id %>">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" 
+                          class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
+                          title="Add to Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </button>
+                </form>
+              <% } %>
+            </div>
+          </div>
+        <% })} %>
+      </div>
+      <div class="mt-4 text-right">
+        <a href="/products?tag=deal_of_the_day" class="text-green-600 hover:underline">View All Deals of the Day →</a>
+      </div>
+    </section>
+
+    <!-- Summer Specials Section -->
+    <section class="mt-16 bg-yellow-50 p-6 rounded-lg">
+      <div class="flex items-center mb-4">
+        <h2 class="text-2xl font-bold">Summer Specials</h2>
+        <span class="ml-3 px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">Seasonal</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <% 
+        // Filter products with summer_specials tag
+        const summerSpecials = products.filter(p => p.specialTag && Array.isArray(p.specialTag) && p.specialTag.includes('summer_specials')).slice(0, 4);
+        
+        if (summerSpecials.length === 0) {
+        %>
+          <div class="col-span-4 text-center py-8">
+            <p class="text-gray-500">No summer specials available at the moment.</p>
+          </div>
+        <% } else {
+          summerSpecials.forEach(product => { 
+        %>
+          <div class="product-card <%= product.status === 'Sold Out' ? 'sold-out' : '' %> bg-white p-4 rounded-lg shadow-sm">
+            <div class="relative">
+              <img src="<%= product.image %>" alt="<%= product.name %>" class="w-full h-48 object-cover rounded-md" loading="lazy">
+              <span class="absolute top-2 left-2 px-2 py-1 bg-yellow-600 text-white text-xs font-bold rounded-full">Summer Special</span>
+              <% if(product.isOrganic) { %>
+                <span class="absolute bottom-2 left-2 px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                  Organic
+                </span>
+              <% } %>
+              <% if(product.originalPrice && product.discountPercentage > 0) { %>
+                <span class="absolute top-2 right-2 px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-md">
+                  <%= Math.round(product.discountPercentage) %>% Off
+                </span>
+              <% } %>
+            </div>
+            <h3 class="mt-2 text-lg font-semibold text-center"><%= product.name %></h3>
+            <div class="flex items-baseline justify-center">
+              <% if(product.originalPrice && product.discountPercentage > 0) { %>
+                <p class="text-green-600 font-bold">₹<%= product.price.toFixed(2) %><% if (product.quantity) { %>&nbsp;/ <%= product.quantity.value %><%= product.quantity.unit %><% } %></p>
+                <p class="ml-2 text-sm text-gray-400 line-through">₹<%= product.originalPrice.toFixed(2) %></p>
+              <% } else { %>
+                <p class="text-green-600 font-bold">₹<%= product.price.toFixed(2) %><% if (product.quantity) { %>&nbsp;/ <%= product.quantity.value %><%= product.quantity.unit %><% } %></p>
+              <% } %>
+            </div>
+            
+            <!-- Status below price - centered -->
+            <% if(product.status === 'Sold Out') { %>
+              <p class="text-red-600 text-sm font-medium mt-1 text-center">Sold Out</p>
+            <% } else if(product.status === 'Coming Soon') { %>
+              <p class="text-yellow-600 text-sm font-medium mt-1 text-center">Coming Soon</p>
+            <% } else { %>
+              <p class="text-green-600 text-sm font-medium mt-1 text-center">Available</p>
+            <% } %>
+            
+            <!-- Action Buttons -->
+            <div class="mt-2 flex space-x-2">
+              <a href="/products/<%= product._id %>" 
+                 class="flex-1 text-center bg-green-600 text-white py-2 rounded hover:bg-green-700 transition <%= product.status === 'Sold Out' ? 'pointer-events-none bg-gray-400' : '' %>">
+                View Details
+              </a>
+              
+              <!-- Quick Add to Cart Button (only for Available products) -->
+              <% if(product.status === 'Available') { %>
+                <form action="/cart" method="POST" class="flex-none">
+                  <input type="hidden" name="productId" value="<%= product._id %>">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" 
+                          class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
+                          title="Add to Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </button>
+                </form>
+              <% } %>
+            </div>
+          </div>
+        <% })} %>
+      </div>
+      <div class="mt-4 text-right">
+        <a href="/products?tag=summer_specials" class="text-green-600 hover:underline">View All Summer Specials →</a>
+      </div>
+    </section>
+
+    <!-- Everyday Essentials Section -->
+    <section class="mt-16 bg-blue-50 p-6 rounded-lg">
+      <div class="flex items-center mb-4">
+        <h2 class="text-2xl font-bold">Everyday Essentials</h2>
+        <span class="ml-3 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">Must-Have</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <% 
+        // Filter products with everyday_essentials tag
+        const everydayEssentials = products.filter(p => p.specialTag && Array.isArray(p.specialTag) && p.specialTag.includes('everyday_essentials')).slice(0, 4);
+        
+        if (everydayEssentials.length === 0) {
+        %>
+          <div class="col-span-4 text-center py-8">
+            <p class="text-gray-500">No everyday essentials available at the moment.</p>
+          </div>
+        <% } else {
+          everydayEssentials.forEach(product => { 
+        %>
+          <div class="product-card <%= product.status === 'Sold Out' ? 'sold-out' : '' %> bg-white p-4 rounded-lg shadow-sm">
+            <div class="relative">
+              <img src="<%= product.image %>" alt="<%= product.name %>" class="w-full h-48 object-cover rounded-md" loading="lazy">
+              <span class="absolute top-2 left-2 px-2 py-1 bg-blue-600 text-white text-xs font-bold rounded-full">Everyday Essential</span>
+              <% if(product.isOrganic) { %>
+                <span class="absolute bottom-2 left-2 px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                  Organic
+                </span>
+              <% } %>
+              <% if(product.originalPrice && product.discountPercentage > 0) { %>
+                <span class="absolute top-2 right-2 px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-md">
+                  <%= Math.round(product.discountPercentage) %>% Off
+                </span>
+              <% } %>
+            </div>
+            <h3 class="mt-2 text-lg font-semibold text-center"><%= product.name %></h3>
+            <div class="flex items-baseline justify-center">
+              <% if(product.originalPrice && product.discountPercentage > 0) { %>
+                <p class="text-green-600 font-bold">₹<%= product.price.toFixed(2) %><% if (product.quantity) { %>&nbsp;/ <%= product.quantity.value %><%= product.quantity.unit %><% } %></p>
+                <p class="ml-2 text-sm text-gray-400 line-through">₹<%= product.originalPrice.toFixed(2) %></p>
+              <% } else { %>
+                <p class="text-green-600 font-bold">₹<%= product.price.toFixed(2) %><% if (product.quantity) { %>&nbsp;/ <%= product.quantity.value %><%= product.quantity.unit %><% } %></p>
+              <% } %>
+            </div>
+            
+            <!-- Status below price - centered -->
+            <% if(product.status === 'Sold Out') { %>
+              <p class="text-red-600 text-sm font-medium mt-1 text-center">Sold Out</p>
+            <% } else if(product.status === 'Coming Soon') { %>
+              <p class="text-yellow-600 text-sm font-medium mt-1 text-center">Coming Soon</p>
+            <% } else { %>
+              <p class="text-green-600 text-sm font-medium mt-1 text-center">Available</p>
+            <% } %>
+            
+            <!-- Action Buttons -->
+            <div class="mt-2 flex space-x-2">
+              <a href="/products/<%= product._id %>" 
+                 class="flex-1 text-center bg-green-600 text-white py-2 rounded hover:bg-green-700 transition <%= product.status === 'Sold Out' ? 'pointer-events-none bg-gray-400' : '' %>">
+                View Details
+              </a>
+              
+              <!-- Quick Add to Cart Button (only for Available products) -->
+              <% if(product.status === 'Available') { %>
+                <form action="/cart" method="POST" class="flex-none">
+                  <input type="hidden" name="productId" value="<%= product._id %>">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" 
+                          class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
+                          title="Add to Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </button>
+                </form>
+              <% } %>
+            </div>
+          </div>
+        <% })} %>
+      </div>
+      <div class="mt-4 text-right">
+        <a href="/products?tag=everyday_essentials" class="text-green-600 hover:underline">View All Everyday Essentials →</a>
+      </div>
+    </section>
+  </main>
+  <%- include('../partials/footer') %>
+  <script src="/js/scripts.js"></script>
+</body>
+</html>
